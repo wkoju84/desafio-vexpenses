@@ -1,3 +1,6 @@
+
+# Chama um módulo para criar a VPC
+# Passa as variáveis 'projeto' e 'candidato'.
 module "vpc" {
   source = "./modules/vpc"
 
@@ -5,6 +8,8 @@ module "vpc" {
   candidato = var.candidato
 }
 
+# Chama um módulo para configurar a segurança
+# Passa as variáveis 'projeto', 'candidato' e o ID da VPC.
 module "security" {
   source = "./modules/security"
 
@@ -13,6 +18,8 @@ module "security" {
   vpc_id    = module.vpc.vpc_id
 }
 
+# Chama um módulo para configurar uma instância EC2
+# Passa as variáveis 'projeto', 'candidato', ID da subnet e ID do Security Group.
 module "ec2" {
   source      = "./modules/ec2"
   projeto     = var.projeto

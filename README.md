@@ -1,7 +1,5 @@
 
-# Desafio online VEXPENSES
-
-Este projeto utiliza Terraform para provisionar uma instância Amazon EC2 rodando Debian 12 na região us-east-1. A instância é configurada para instalar e iniciar automaticamente o servidor Nginx após a sua criação. O estado do Terraform é armazenado de forma remota em um bucket S3, e o bloqueio do estado é gerenciado através de uma tabela DynamoDB para garantir que não ocorram alterações concorrentes.
+Este projeto utiliza Terraform para provisionar uma instância Amazon EC2 rodando Debian 12 na região `us-east-1`. A instância é configurada para instalar e iniciar automaticamente o servidor Nginx após a sua criação. O estado do Terraform é armazenado de forma remota em um bucket S3, e o bloqueio do estado é gerenciado através de uma tabela DynamoDB para garantir que não ocorram alterações concorrentes.
 
 ## Funcionalidades
 
@@ -28,7 +26,21 @@ Este projeto utiliza Terraform para provisionar uma instância Amazon EC2 rodand
 ├── outputs.tf         # Valores de saída do Terraform (IP público da EC2, chave SSH)
 ├── variables.tf       # Arquivo de variáveis (contém o ID da AMI, região, etc.)
 ├── .gitignore         # Arquivo gitignore (exclui estado do Terraform, chaves, etc.)
-└── README.md          # Este arquivo README
+├── README.md          # Este arquivo README
+└── modules            # Diretório para módulos reutilizáveis
+    ├── vpc            # Módulo VPC
+    │   ├── main.tf    # Configurações principais da VPC
+    │   ├── outputs.tf # Saídas do módulo VPC
+    │   └── vars.tf    # Variáveis do módulo VPC
+    ├── security       # Módulo de Segurança
+    │   ├── main.tf    # Configurações principais de segurança
+    │   ├── outputs.tf # Saídas do módulo de segurança
+    │   └── vars.tf    # Variáveis do módulo de segurança
+    └── ec2            # Módulo EC2
+        ├── main.tf    # Configurações principais da instância EC2
+        ├── outputs.tf # Saídas do módulo EC2
+        └── vars.tf    # Variáveis do módulo EC2
+
 ```
 ## main.tf
 
@@ -174,8 +186,17 @@ Para remover e limpar a infraestrutura criada, use o comando terraform destroy:
 terraform destroy
 
 ```
+## Melhorias 
+
+- Separado em módulos para facilitar gerenciamento, alterações e novas configurações.
+- Adicionado configuração de backend para armazenar arquivo tfstate de forma que possa ser alterado sem criar arquivo lock e sendo possível atualização do tfstate.
+- Habilitação da porta 80 para acesso ao Nginx com liberação apenas ao IP local.
 
 ## Notas
 - Certifique-se de que você tem as permissões AWS necessárias para criar instâncias EC2, buckets S3, tabelas DynamoDB e grupos de segurança.
 - O ID da AMI fornecido no arquivo variables.tf corresponde à Debian 12 na região us-east-1. Se você usar uma região diferente, será necessário atualizar o ID da AMI.
 - O par de chaves gerado pelo Terraform é sensível e deve ser armazenado com segurança.
+
+## Observação
+
+- Como a criação da infraestrutura é em carater de teste foi utilizado apenas uma zona de disponibilidade ao invés de 3.
