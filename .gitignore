@@ -1,0 +1,34 @@
+# Diretórios do Terraform
+.terraform/
+.terraform.lock.hcl
+
+# Arquivo de estado do Terraform
+terraform.tfstate
+terraform.tfstate.backup
+
+# Planos do Terraform
+*.tfplan
+
+# Logs de execução
+crash.log
+
+# Senhas, chaves ou variáveis sensíveis
+*.pem
+*.key
+*.p12
+*.crt
+*.cer
+
+# Variáveis locais do Terraform (ex: variáveis de ambiente)
+terraform.tfvars
+*.auto.tfvars
+
+# Arquivos de override do Terraform (locais, customizados)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Arquivos de saída
+.terraformrc
+terraform.rc
