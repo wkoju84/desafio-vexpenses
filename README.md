@@ -13,13 +13,13 @@ Este projeto utiliza Terraform para provisionar uma instância Amazon EC2 rodand
 
 - Terraform instalado.
 - Credenciais AWS configuradas corretamente no seu sistema (~/.aws/credentials).
-- Um bucket S3 existente e uma tabela DynamoDB para gerenciamento do estado:
+- Um bucket S3 existente para gerenciamento do estado:
 - Bucket S3: meu-bucket-terraform-states
 
 ## Estrutura de Arquivos
 ```
 .
-├── backend.tf         # Configuração do backend do Terraform (S3 + DynamoDB)
+├── backend.tf         # Configuração do backend do Terraform (S3)
 ├── main.tf            # Script principal do Terraform para provisionamento da EC2
 ├── outputs.tf         # Valores de saída do Terraform (IP público da EC2, chave SSH)
 ├── variables.tf       # Arquivo de variáveis (contém o ID da AMI, região, etc.)
@@ -162,7 +162,15 @@ terraform plan
 
 ```
 
-## 3. Acessar a instância EC2:
+## 3. Aplicar o plano do Terraform:
+Execute o plano de execução gerado por terraform plan, aplicando as mudanças especificadas na infraestrutura. Ele cria, modifica ou remove recursos de acordo com a configuração definida no código Terraform, atualizando o estado do ambiente real:
+
+```
+terraform apply
+
+```
+
+## 4. Acessar a instância EC2:
 Você pode acessar a instância EC2 via SSH usando a chave privada fornecida no output:
 
 ```
@@ -177,7 +185,7 @@ http://<ec2_public_ip>
 
 ```
 
-## 4. Destruir a infraestrutura:
+## 5. Destruir a infraestrutura:
 Para remover e limpar a infraestrutura criada, use o comando terraform destroy:
 
 ```
