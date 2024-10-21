@@ -1,5 +1,5 @@
 
-Este projeto utiliza Terraform para provisionar uma instância Amazon EC2 rodando Debian 12 na região `us-east-1`. A instância é configurada para instalar e iniciar automaticamente o servidor Nginx após a sua criação. O estado do Terraform é armazenado de forma remota em um bucket S3, e o bloqueio do estado é gerenciado através de uma tabela DynamoDB para garantir que não ocorram alterações concorrentes.
+Este projeto utiliza Terraform para provisionar uma instância Amazon EC2 rodando Debian 12 na região `us-east-1`. A instância é configurada para instalar e iniciar automaticamente o servidor Nginx após a sua criação. O estado do Terraform é armazenado de forma remota em um bucket S3.
 
 ## Funcionalidades
 
@@ -16,7 +16,6 @@ Este projeto utiliza Terraform para provisionar uma instância Amazon EC2 rodand
 - Credenciais AWS configuradas corretamente no seu sistema (~/.aws/credentials).
 - Um bucket S3 existente e uma tabela DynamoDB para gerenciamento do estado:
 - Bucket S3: meu-bucket-terraform-states
-- Tabela DynamoDB: meu-terraform-lock-table
 
 ## Estrutura de Arquivos
 ```
@@ -157,10 +156,10 @@ terraform init
 ```
 
 ## 2. Aplicar o plano do Terraform:
-Aplique as mudanças para provisionar a instância EC2 e os recursos relacionados. O Terraform solicitará confirmação antes de criar os recursos:
+Gere um plano de execução detalhando as ações necessárias para alinhar a infraestrutura real com o código Terraform. Ele mostra quais recursos serão criados, modificados ou destruídos, sem realizar nenhuma mudança real:
 
 ```
-terraform apply
+terraform plan
 
 ```
 
@@ -193,7 +192,7 @@ terraform destroy
 - Habilitação da porta 80 para acesso ao Nginx com liberação apenas ao IP local.
 
 ## Notas
-- Certifique-se de que você tem as permissões AWS necessárias para criar instâncias EC2, buckets S3, tabelas DynamoDB e grupos de segurança.
+- Certifique-se de que você tem as permissões AWS necessárias para criar instâncias EC2, buckets S3 e grupos de segurança.
 - O ID da AMI fornecido no arquivo variables.tf corresponde à Debian 12 na região us-east-1. Se você usar uma região diferente, será necessário atualizar o ID da AMI.
 - O par de chaves gerado pelo Terraform é sensível e deve ser armazenado com segurança.
 
