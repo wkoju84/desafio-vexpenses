@@ -7,7 +7,6 @@ Este projeto utiliza Terraform para provisionar uma instância Amazon EC2 rodand
 - Instalação automática e inicialização do Nginx na criação da instância, utilizando um script de inicialização (user_data).
 - Criação de um par de chaves SSH para acesso seguro à instância.
 - Configuração de um backend no S3 para armazenar o estado do Terraform.
-- Uso de uma tabela DynamoDB para bloqueio de estado, prevenindo execuções concorrentes.
 - Configuração de um grupo de segurança para permitir acesso SSH e HTTP à instância EC2.
 
 ## Pré-requisitos
